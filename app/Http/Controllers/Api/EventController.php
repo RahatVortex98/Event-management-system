@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use App\Http\Resources\EventResource;
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
+
+    public function __construct(){
+        $this->middleware('auth:sanctum')->except(['index','show']);
+    }
+
     public function index()
     {
         return EventResource::collection(Event::all());
@@ -35,7 +38,7 @@ class EventController extends Controller
         'description' => $validated['description'] ?? null,
         'start_time' => $validated['start_time'],
         'end_time' => $validated['end_time'],
-        'user_id' => 1, // temporarily hardcoded
+        'user_id' => $request->user()->id // temporarily hardcoded
     ]);
 
     return response()->json(new EventResource($event), 201);
