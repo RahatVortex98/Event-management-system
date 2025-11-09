@@ -32,15 +32,9 @@ A RESTful **Event Management System** built with **Laravel 12** and **MySQL**, a
 
 ---
 
-## Installation
 
-1. Clone the repository:
 
-```bash
-git clone https://github.com/your-username/event-management.git
-cd event-management
----
-API Endpoints:
+## API Endpoints:
 
 | Method | Endpoint  | Description               |
 | ------ | --------- | ------------------------- |
