@@ -6,19 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Resources\EventResource;
+use Illuminate\Support\Facades\Gate;
+
+
+
+
+
+/**
+ * @method \Illuminate\Routing\ControllerMiddlewareOptions middleware(string|array $middleware)
+ */
 class EventController extends Controller
 {
     
 
     public function __construct(){
         $this->middleware('auth:sanctum')->except(['index','show']);
+        $this->authorizeResource(Event::class,'event');
     }
 
     public function index()
     {
         return EventResource::collection(Event::all());
-    }
 
+       
+    
+    }
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -52,6 +65,10 @@ class EventController extends Controller
     {
         $event->load('user');
 
+        if (!$event) {
+        return response()->json(['message' => 'Event not found'], 404);
+    }
+
         return new EventResource($event);
     }
 
@@ -60,6 +77,10 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
+         if(Gate::denies('update-event',$event)){
+            abort(403,'You cannot update this');
+         }
+
         $validate =$request->validate([
         'name' => ['required', 'string', 'max:255'],
         'description' => ['nullable', 'string'],

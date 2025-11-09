@@ -16,19 +16,22 @@ class AuthController extends Controller
     // Login
     public function login(Request $request)
     {
+        //validation
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        //search the exsting user
 
+        $user = User::where('email', $request->email)->first();
+        //if the user not pass a
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-
+        //if the user pass then give token
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
@@ -37,6 +40,13 @@ class AuthController extends Controller
         ]);
     }
     public function logout(Request $request){
+
+        $request->user()->currentAccessToken()->delete();
+
+
+        return response()->json([   
+            'message'=> 'Logged Out Successfully'
+            ]); 
 
     }
 }
