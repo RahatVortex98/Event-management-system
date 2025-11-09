@@ -39,7 +39,7 @@ A RESTful **Event Management System** built with **Laravel 12** and **MySQL**, a
 ```bash
 git clone https://github.com/your-username/event-management.git
 cd event-management
-
+---
 API Endpoints:
 
 | Method | Endpoint  | Description               |
@@ -120,3 +120,4 @@ Gates On attendee:
 
 Event Reminder:
 <img width="573" height="52" alt="event_reminder" src="https://github.com/user-attachments/assets/1a918ce0-00ed-4894-9638-94d1346f12a5" />
+---
